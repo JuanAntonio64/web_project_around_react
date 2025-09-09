@@ -1,5 +1,4 @@
-import { useState } from "react";
-import Profile from "../../images/Profile_Icon.svg";
+import { useState, useEffect, useContext } from "react";
 import Edit from "../../images/Edit_Icon.svg";
 import Add from "../../images/Add_Icon.svg";
 
@@ -11,62 +10,16 @@ import NewCard from "./NewCard/NewCard.jsx";
 import NewCardForm from "./NewCard/NewCardForm.jsx";
 import Card from "./Card/Card.jsx";
 import ImagePopup from "./ImagePopup/ImagePopup.jsx";
+import { api } from "../../utils/api.js";
 
-const initialCards = [
-  {
-    isLiked: false,
-    _id: "5d1f0611d321eb4bdcd707dd",
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:10:57.741Z",
-  },
-  {
-    isLiked: false,
-    _id: "5d1f064ed321eb4bdcd707de",
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:11:58.324Z",
-  },
-  {
-    isLiked: false,
-    _id: "5d1f0611d321eb4bdcd707dd",
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:10:57.741Z",
-  },
-  {
-    isLiked: false,
-    _id: "5d1f064ed321eb4bdcd707de",
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:11:58.324Z",
-  },
-  {
-    isLiked: false,
-    _id: "5d1f0611d321eb4bdcd707dd",
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:10:57.741Z",
-  },
-  {
-    isLiked: false,
-    _id: "5d1f064ed321eb4bdcd707de",
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:11:58.324Z",
-  },
-];
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 function Main() {
   const [popup, setPopup] = useState(null);
-  const [cards, setCards] = useState(initialCards);
-  const [selectedCard, setSelectedCard] = useState(null); 
+  const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const currentUser = useContext(CurrentUserContext);
 
   const editProfilePopup = { children: <EditProfileForm /> };
   const editAvatarPopup = { children: <EditAvatarForm /> };
@@ -78,24 +31,46 @@ function Main() {
 
   function handleClosePopup() {
     setPopup(null);
-    setSelectedCard(null); 
+    setSelectedCard(null);
   }
 
-  const handleLike = (id) => {
-    setCards((prev) =>
-      prev.map((card) =>
-        card._id === id ? { ...card, isLiked: !card.isLiked } : card
-      )
-    );
-  };
+  // ✅ Like / Dislike
+  async function handleCardLike(card) {
+    const isLiked = card.isLiked;
+    try {
+      const newCard = await api.changeLikeCardStatus(card._id, !isLiked);
+      setCards((state) =>
+        state.map((c) => (c._id === card._id ? newCard : c))
+      );
+    } catch (error) {
+      console.error("Error al dar like/dislike:", error);
+    }
+  }
 
-  const handleDelete = (id) => {
-    setCards((prev) => prev.filter((card) => card._id !== id));
-  };
+  // ✅ Eliminar tarjeta
+  async function handleCardDelete(card) {
+    try {
+      await api.deleteCard(card._id);
+      setCards((state) => state.filter((c) => c._id !== card._id));
+    } catch (error) {
+      console.error("Error al eliminar tarjeta:", error);
+    }
+  }
 
   const handleCardClick = (card) => {
-    setSelectedCard(card); 
+    setSelectedCard(card);
   };
+
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((err) => {
+        console.error("Error al obtener tarjetas:", err);
+      });
+  }, []);
 
   return (
     <main className="main">
@@ -106,15 +81,21 @@ function Main() {
             className="main__button main__button_editProfile"
             onClick={() => handleOpenPopup(editAvatarPopup)}
           >
-            <img src={Profile} alt="profile" className="main__profile-image" />
+            <img
+              src={currentUser?.avatar}
+              alt={currentUser?.name}
+              className="main__profile-image"
+            />
           </button>
         </div>
 
         <div className="main__content-paragraph">
           <p className="main__paragraph main__paragraph_name">
-            Juan Antonio Morales Balderas
+            {currentUser?.name}
           </p>
-          <p className="main__paragraph main__paragraph_job">Programador</p>
+          <p className="main__paragraph main__paragraph_job">
+            {currentUser?.about}
+          </p>
           <button
             type="button"
             className="main__button main__button_edit"
@@ -139,8 +120,8 @@ function Main() {
             <Card
               key={card._id}
               card={card}
-              onLike={handleLike}
-              onDelete={handleDelete}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
               onCardClick={handleCardClick}
             />
           ))}
@@ -150,21 +131,15 @@ function Main() {
       {popup && (
         <>
           {popup.children.type === EditAvatarForm && (
-            <EditAvatar onClose={handleClosePopup}>
-              {popup.children}
-            </EditAvatar>
+            <EditAvatar onClose={handleClosePopup}>{popup.children}</EditAvatar>
           )}
 
           {popup.children.type === EditProfileForm && (
-            <EditProfile onClose={handleClosePopup}>
-              {popup.children}
-            </EditProfile>
+            <EditProfile onClose={handleClosePopup}>{popup.children}</EditProfile>
           )}
 
           {popup.children.type === NewCardForm && (
-            <NewCard onClose={handleClosePopup}>
-              {popup.children}
-            </NewCard>
+            <NewCard onClose={handleClosePopup}>{popup.children}</NewCard>
           )}
         </>
       )}
