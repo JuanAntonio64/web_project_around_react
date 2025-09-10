@@ -2,39 +2,21 @@ import { useState, useEffect, useContext } from "react";
 import Edit from "../../images/Edit_Icon.svg";
 import Add from "../../images/Add_Icon.svg";
 
-import EditProfile from "./EditProfile/EditProfile.jsx";
 import EditProfileForm from "./EditProfile/EditProfileForm.jsx";
-import EditAvatar from "./EditAvatar/EditAvatar.jsx";
 import EditAvatarForm from "./EditAvatar/EditAvatarForm.jsx";
-import NewCard from "./NewCard/NewCard.jsx";
 import NewCardForm from "./NewCard/NewCardForm.jsx";
 import Card from "./Card/Card.jsx";
-import ImagePopup from "./ImagePopup/ImagePopup.jsx";
 import { api } from "../../utils/api.js";
-
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
-function Main() {
-  const [popup, setPopup] = useState(null);
+function Main({ onOpenPopup, setSelectedCard }) {
   const [cards, setCards] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null);
-
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const editProfilePopup = { children: <EditProfileForm /> };
   const editAvatarPopup = { children: <EditAvatarForm /> };
   const newCardPopup = { children: <NewCardForm /> };
 
-  function handleOpenPopup(popupObj) {
-    setPopup(popupObj);
-  }
-
-  function handleClosePopup() {
-    setPopup(null);
-    setSelectedCard(null);
-  }
-
-  // ✅ Like / Dislike
   async function handleCardLike(card) {
     const isLiked = card.isLiked;
     try {
@@ -47,7 +29,6 @@ function Main() {
     }
   }
 
-  // ✅ Eliminar tarjeta
   async function handleCardDelete(card) {
     try {
       await api.deleteCard(card._id);
@@ -62,8 +43,7 @@ function Main() {
   };
 
   useEffect(() => {
-    api
-      .getInitialCards()
+    api.getInitialCards()
       .then((data) => {
         setCards(data);
       })
@@ -79,7 +59,7 @@ function Main() {
           <button
             type="button"
             className="main__button main__button_editProfile"
-            onClick={() => handleOpenPopup(editAvatarPopup)}
+            onClick={() => onOpenPopup(editAvatarPopup)}
           >
             <img
               src={currentUser?.avatar}
@@ -99,7 +79,7 @@ function Main() {
           <button
             type="button"
             className="main__button main__button_edit"
-            onClick={() => handleOpenPopup(editProfilePopup)}
+            onClick={() => onOpenPopup(editProfilePopup)}
           >
             <img src={Edit} alt="edit" className="popup__image-edit" />
           </button>
@@ -108,7 +88,7 @@ function Main() {
         <button
           type="button"
           className="main__button main__button_add"
-          onClick={() => handleOpenPopup(newCardPopup)}
+          onClick={() => onOpenPopup(newCardPopup)}
         >
           <img src={Add} alt="add" className="popup__image-add" />
         </button>
@@ -127,26 +107,6 @@ function Main() {
           ))}
         </ul>
       </section>
-
-      {popup && (
-        <>
-          {popup.children.type === EditAvatarForm && (
-            <EditAvatar onClose={handleClosePopup}>{popup.children}</EditAvatar>
-          )}
-
-          {popup.children.type === EditProfileForm && (
-            <EditProfile onClose={handleClosePopup}>{popup.children}</EditProfile>
-          )}
-
-          {popup.children.type === NewCardForm && (
-            <NewCard onClose={handleClosePopup}>{popup.children}</NewCard>
-          )}
-        </>
-      )}
-
-      {selectedCard && (
-        <ImagePopup card={selectedCard} onClose={handleClosePopup} />
-      )}
     </main>
   );
 }
