@@ -1,6 +1,6 @@
-import TrashIcon from "../../../images/Trash.png";
-import HeartIcon from "../../../images/hearth.svg";
-import HeartIconActive from "../../../images/hearth_click.svg";
+import TrashIcon from "../../images/Trash.png";
+import HeartIcon from "../../images/hearth.svg";
+import HeartIconActive from "../../images/hearth_click.svg";
 
 function Card({ card, onCardDelete, onCardLike, onCardClick }) {
   const { name, link, isLiked } = card;
