@@ -2,10 +2,10 @@ import { useContext } from "react";
 import Edit from "../../images/Edit_Icon.svg";
 import Add from "../../images/Add_Icon.svg";
 
-import EditProfileForm from "../EditProfile/EditProfileForm.jsx";
-import EditAvatarForm from "../EditAvatar/EditAvatarForm.jsx";
-import NewCardForm from "../NewCard/NewCardForm.jsx";
-import Card from "../Card/Card.jsx";
+import EditProfileForm from "./EditProfile/EditProfileForm.jsx";
+import EditAvatarForm from "./EditAvatar/EditAvatarForm.jsx";
+import NewCardForm from "./NewCard/NewCardForm.jsx";
+import Card from "./Card/Card.jsx";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 function Main({ cards, onCardLike, onCardDelete, onOpenPopup, setSelectedCard }) {
