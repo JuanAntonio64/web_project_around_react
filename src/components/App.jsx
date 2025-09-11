@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import "./index.css";
-import Header from "./components/Header/Header.jsx";
-import Main from "./components/Main/Main.jsx";
-import Footer from "./components/Footer/Footer.jsx";
-import EditProfile from "./components/Main/EditProfile/EditProfile.jsx";
-import EditProfileForm from "./components/Main/EditProfile/EditProfileForm.jsx";
-import EditAvatar from "./components/Main/EditAvatar/EditAvatar.jsx";
-import EditAvatarForm from "./components/Main/EditAvatar/EditAvatarForm.jsx";
-import NewCard from "./components/Main/NewCard/NewCard.jsx";
-import NewCardForm from "./components/Main/NewCard/NewCardForm.jsx";
-import ImagePopup from "./components/Main/ImagePopup/ImagePopup.jsx";
+import "../index.css";
+import Header from "./Header/Header.jsx";
+import Main from "./Main/Main.jsx";
+import Footer from "./Footer/Footer.jsx";
+import EditProfile from "./Main/EditProfile/EditProfile.jsx";
+import EditProfileForm from "./Main/EditProfile/EditProfileForm.jsx";
+import EditAvatar from "./Main/EditAvatar/EditAvatar.jsx";
+import EditAvatarForm from "./Main/EditAvatar/EditAvatarForm.jsx";
+import NewCard from "./Main/NewCard/NewCard.jsx";
+import NewCardForm from "./Main/NewCard/NewCardForm.jsx";
+import ImagePopup from "./Main/ImagePopup/ImagePopup.jsx";
 
-import { api } from "./utils/api.js";
-import { CurrentUserContext } from "./contexts/CurrentUserContext.js";
+import { api } from "../utils/api.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
