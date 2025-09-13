@@ -4,7 +4,7 @@ import Add from "../../images/Add_Icon.svg";
 
 import EditProfileForm from "./components/Popup/EditProfile/EditProfileForm.jsx";
 import EditAvatarForm from "./components/Popup/EditAvatar/EditAvatarForm.jsx";
-import NewCardForm from "./components/NewCard/NewCardForm.jsx";
+import NewCardForm from "./components/Popup/NewCard/NewCardForm.jsx";
 import Card from "./components/Card/Card.jsx";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 

@@ -8,8 +8,8 @@ import EditProfile from "./Main/components/Popup/EditProfile/EditProfile.jsx";
 import EditProfileForm from "./Main/components/Popup/EditProfile/EditProfileForm.jsx";
 import EditAvatar from "./Main/components/Popup/EditAvatar/EditAvatar.jsx";
 import EditAvatarForm from "./Main/components/Popup/EditAvatar/EditAvatarForm.jsx";
-import NewCard from "./Main/components/NewCard/NewCard.jsx";
-import NewCardForm from "./Main/components/NewCard/NewCardForm.jsx";
+import NewCard from "./Main/components/Popup/NewCard/NewCard.jsx";
+import NewCardForm from "./Main/components/Popup/NewCard/NewCardForm.jsx";
 import ImagePopup from "./Main/components/Popup/ImagePopup/ImagePopup.jsx";
 
 import { api } from "../utils/api.js";
