@@ -7,8 +7,8 @@ import EditProfile from "./Main/EditProfile/EditProfile.jsx";
 import EditProfileForm from "./Main/EditProfile/EditProfileForm.jsx";
 import EditAvatar from "./Main/EditAvatar/EditAvatar.jsx";
 import EditAvatarForm from "./Main/EditAvatar/EditAvatarForm.jsx";
-import NewCard from "./NewCard/NewCard.jsx";
-import NewCardForm from "./NewCard/NewCardForm.jsx";
+import NewCard from "./NewCard.jsx";
+import NewCardForm from "./NewCardForm.jsx";
 import ImagePopup from "./Main/ImagePopup/ImagePopup.jsx";
 
 import { api } from "../utils/api.js";
