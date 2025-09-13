@@ -3,6 +3,7 @@ import "../index.css";
 import Header from "./Header/Header.jsx";
 import Main from "./Main/Main.jsx";
 import Footer from "./Footer/Footer.jsx";
+import Popup from "./Main/components/Popup/Popup.jsx";
 import EditProfile from "./Main/components/Popup/EditProfile/EditProfile.jsx";
 import EditProfileForm from "./Main/components/Popup/EditProfile/EditProfileForm.jsx";
 import EditAvatar from "./Main/components/Popup/EditAvatar/EditAvatar.jsx";
@@ -101,30 +102,32 @@ function App() {
         />
         <Footer />
 
-        {/* Popups */}
         {popup && (
           <>
             {popup.children.type === EditAvatarForm && (
-              <EditAvatar onClose={handleClosePopup}>
-                {popup.children}
-              </EditAvatar>
+              <Popup isOpen={true} onClose={handleClosePopup}>
+                <EditAvatarForm />
+              </Popup>
             )}
             {popup.children.type === EditProfileForm && (
-              <EditProfile onClose={handleClosePopup}>
-                {popup.children}
-              </EditProfile>
+              <Popup isOpen={true} onClose={handleClosePopup}>
+                <EditProfileForm />
+              </Popup>
             )}
             {popup.children.type === NewCardForm && (
-              <NewCard onClose={handleClosePopup}>
+              <Popup isOpen={true} onClose={handleClosePopup}>
                 <NewCardForm onAddPlaceSubmit={handleAddPlaceSubmit} />
-              </NewCard>
+              </Popup>
             )}
           </>
         )}
 
         {selectedCard && (
-          <ImagePopup card={selectedCard} onClose={handleClosePopup} />
+          <Popup isOpen={true} onClose={handleClosePopup}>
+            <ImagePopup card={selectedCard} />
+          </Popup>
         )}
+
       </CurrentUserContext.Provider>
     </div>
   );
