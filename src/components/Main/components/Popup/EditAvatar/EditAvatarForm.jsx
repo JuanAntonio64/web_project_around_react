@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { CurrentUserContext } from "../../../contexts/CurrentUserContext.js";
+import { CurrentUserContext } from "../../../../../contexts/CurrentUserContext.js";
 
 function EditAvatarForm() {
   const { handleUpdateAvatar } = useContext(CurrentUserContext);
