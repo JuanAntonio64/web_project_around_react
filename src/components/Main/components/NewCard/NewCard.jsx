@@ -1,4 +1,4 @@
-import CloseIcon from "../../../../../images/Close_Icon.svg";
+import CloseIcon from "../../../../images/Close_Icon.svg";
 
 function AddCard(props) {
   const { onClose, children} = props;
