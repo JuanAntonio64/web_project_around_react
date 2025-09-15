@@ -5,11 +5,8 @@ import Main from "./Main/Main.jsx";
 import Footer from "./Footer/Footer.jsx";
 import Popup from "./Main/components/Popup/Popup.jsx";
 import EditProfile from "./Main/components/Popup/EditProfile/EditProfile.jsx";
-import EditProfileForm from "./Main/components/Popup/EditProfile/EditProfileForm.jsx";
 import EditAvatar from "./Main/components/Popup/EditAvatar/EditAvatar.jsx";
-import EditAvatarForm from "./Main/components/Popup/EditAvatar/EditAvatarForm.jsx";
 import NewCard from "./Main/components/Popup/NewCard/NewCard.jsx";
-import NewCardForm from "./Main/components/Popup/NewCard/NewCardForm.jsx";
 import ImagePopup from "./Main/components/Popup/ImagePopup/ImagePopup.jsx";
 
 import { api } from "../utils/api.js";
@@ -104,19 +101,19 @@ function App() {
 
         {popup && (
           <>
-            {popup.children.type === EditAvatarForm && (
+            {popup.children.type === EditAvatar && (
               <Popup isOpen={true} onClose={handleClosePopup}>
-                <EditAvatarForm />
+                <EditAvatar />
               </Popup>
             )}
-            {popup.children.type === EditProfileForm && (
+            {popup.children.type === EditProfile && (
               <Popup isOpen={true} onClose={handleClosePopup}>
-                <EditProfileForm />
+                <EditProfile />
               </Popup>
             )}
-            {popup.children.type === NewCardForm && (
+            {popup.children.type === NewCard && (
               <Popup isOpen={true} onClose={handleClosePopup}>
-                <NewCardForm onAddPlaceSubmit={handleAddPlaceSubmit} />
+                <NewCard onAddPlaceSubmit={handleAddPlaceSubmit} />
               </Popup>
             )}
           </>

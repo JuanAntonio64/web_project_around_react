@@ -2,18 +2,18 @@ import { useContext } from "react";
 import Edit from "../../images/Edit_Icon.svg";
 import Add from "../../images/Add_Icon.svg";
 
-import EditProfileForm from "./components/Popup/EditProfile/EditProfileForm.jsx";
-import EditAvatarForm from "./components/Popup/EditAvatar/EditAvatarForm.jsx";
-import NewCardForm from "./components/Popup/NewCard/NewCardForm.jsx";
+import EditProfile from "./components/Popup/EditProfile/EditProfile.jsx";
+import EditAvatar from "./components/Popup/EditAvatar/EditAvatar.jsx";
+import NewCard from "./components/Popup/NewCard/NewCard.jsx";
 import Card from "./components/Card/Card.jsx";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 function Main({ cards, onCardLike, onCardDelete, onOpenPopup, setSelectedCard }) {
   const { currentUser } = useContext(CurrentUserContext);
 
-  const editProfilePopup = { children: <EditProfileForm /> };
-  const editAvatarPopup = { children: <EditAvatarForm /> };
-  const newCardPopup = { children: <NewCardForm /> };
+  const editProfilePopup = { children: <EditProfile /> };
+  const editAvatarPopup = { children: <EditAvatar /> };
+  const newCardPopup = { children: <NewCard /> };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);

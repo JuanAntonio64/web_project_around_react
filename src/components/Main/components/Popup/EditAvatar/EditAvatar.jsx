@@ -1,22 +1,46 @@
-import CloseIcon from "../../../../../images/Close_Icon.svg";
+import { useState, useContext } from "react";
+import { CurrentUserContext } from "../../../../../contexts/CurrentUserContext.js";
 
-function EditAvatar(props) {
-  const { onClose, children } = props;
+function EditAvatarForm() {
+  const { handleUpdateAvatar } = useContext(CurrentUserContext);
+  const [avatar, setAvatar] = useState("");
+
+  function handleChange(e) {
+    setAvatar(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    handleUpdateAvatar({ avatar }); // ✅ Llama a la API desde App
+  }
+
   return (
-    <div className="popup popup_opened" id="popup-editAvatar">
-      <div className="popup__container">
-        <button
-          type="button"
-          className="popup__button popup__button_close"
-          id="close-button-editAvatar"
-          onClick={onClose}
-        >
-          <img src={CloseIcon} alt="close" className="popup__image-close" />
+    <form
+      className="popup__form popup__form-add"
+      noValidate
+      onSubmit={handleSubmit}
+    >
+      <h2 className="popup__subtitle">Cambiar foto de perfil</h2>
+      <fieldset className="popup__content">
+        <label className="popup__field">
+          <input
+            type="url"
+            className="popup__input popup__input_url"
+            placeholder="URL de la foto de perfil"
+            id="profile-input"
+            name="profile-input"
+            value={avatar}
+            onChange={handleChange}
+            required
+          />
+          <span className="popup__input-error profile-input-error"></span>
+        </label>
+        <button type="submit" className="popup__button popup__button_save">
+          Guardar
         </button>
-        {children}
-      </div>
-    </div>
+      </fieldset>
+    </form>
   );
 }
 
-export default EditAvatar;
+export default EditAvatarForm;
