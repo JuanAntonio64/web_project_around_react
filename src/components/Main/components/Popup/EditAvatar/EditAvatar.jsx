@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { CurrentUserContext } from "../../../../../contexts/CurrentUserContext.js";
 
-function EditAvatarForm() {
+function EditAvatar() {
   const { handleUpdateAvatar } = useContext(CurrentUserContext);
   const [avatar, setAvatar] = useState("");
 
@@ -43,4 +43,4 @@ function EditAvatarForm() {
   );
 }
 
-export default EditAvatarForm;
+export default EditAvatar;

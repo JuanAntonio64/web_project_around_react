@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { CurrentUserContext } from "../../../../../contexts/CurrentUserContext.js";
 
-function EditProfileForm() {
+function EditProfile() {
   const { currentUser, handleUpdateUser } = useContext(CurrentUserContext);
 
   const [name, setName] = useState("");
@@ -78,4 +78,4 @@ function EditProfileForm() {
   );
 }
 
-export default EditProfileForm;
+export default EditProfile;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function NewCardForm({ onAddPlaceSubmit }) {
+function NewCard({ onAddPlaceSubmit }) {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
 
@@ -53,4 +53,4 @@ function NewCardForm({ onAddPlaceSubmit }) {
   );
 }
 
-export default NewCardForm;
+export default NewCard;
