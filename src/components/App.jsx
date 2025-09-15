@@ -15,7 +15,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [cards, setCards] = useState([]);
-  const [popup, setPopup] = useState(null);
+  const [selectedPopup, setSelectedPopup] = useState(null); 
   const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
@@ -28,12 +28,12 @@ function App() {
       .catch((err) => console.error("Error al obtener tarjetas:", err));
   }, []);
 
-  function handleOpenPopup(popupObj) {
-    setPopup(popupObj);
+  function handleOpenPopup(popupName) {
+    setSelectedPopup(popupName); 
   }
 
   function handleClosePopup() {
-    setPopup(null);
+    setSelectedPopup(null);
     setSelectedCard(null);
   }
 
@@ -77,7 +77,7 @@ function App() {
   async function handleAddPlaceSubmit({ name, link }) {
     try {
       const newCard = await api.createCard(name, link);
-      setCards([newCard, ...cards]); // inserta al inicio
+      setCards([newCard, ...cards]); 
       handleClosePopup();
     } catch (err) {
       console.error("Error al agregar tarjeta:", err);
@@ -95,36 +95,29 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
           onOpenPopup={handleOpenPopup}
+          selectedPopup={selectedPopup} 
+          onClosePopup={handleClosePopup}
           setSelectedCard={setSelectedCard}
         />
         <Footer />
 
-        {popup && (
-          <>
-            {popup.children.type === EditAvatar && (
-              <Popup isOpen={true} onClose={handleClosePopup}>
-                <EditAvatar />
-              </Popup>
-            )}
-            {popup.children.type === EditProfile && (
-              <Popup isOpen={true} onClose={handleClosePopup}>
-                <EditProfile />
-              </Popup>
-            )}
-            {popup.children.type === NewCard && (
-              <Popup isOpen={true} onClose={handleClosePopup}>
-                <NewCard onAddPlaceSubmit={handleAddPlaceSubmit} />
-              </Popup>
-            )}
-          </>
-        )}
+        <Popup isOpen={selectedPopup === "editAvatar"} onClose={handleClosePopup}>
+          <EditAvatar />
+        </Popup>
+
+        <Popup isOpen={selectedPopup === "editProfile"} onClose={handleClosePopup}>
+          <EditProfile />
+        </Popup>
+
+        <Popup isOpen={selectedPopup === "newCard"} onClose={handleClosePopup}>
+          <NewCard onAddPlaceSubmit={handleAddPlaceSubmit} />
+        </Popup>
 
         {selectedCard && (
           <Popup isOpen={true} onClose={handleClosePopup}>
             <ImagePopup card={selectedCard} />
           </Popup>
         )}
-
       </CurrentUserContext.Provider>
     </div>
   );

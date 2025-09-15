@@ -6,14 +6,19 @@ import EditProfile from "./components/Popup/EditProfile/EditProfile.jsx";
 import EditAvatar from "./components/Popup/EditAvatar/EditAvatar.jsx";
 import NewCard from "./components/Popup/NewCard/NewCard.jsx";
 import Card from "./components/Card/Card.jsx";
+import Popup from "./components/Popup/Popup.jsx"; 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
-function Main({ cards, onCardLike, onCardDelete, onOpenPopup, setSelectedCard }) {
+function Main({
+  cards,
+  onCardLike,
+  onCardDelete,
+  onOpenPopup,
+  selectedPopup,
+  onClosePopup,
+  setSelectedCard,
+}) {
   const { currentUser } = useContext(CurrentUserContext);
-
-  const editProfilePopup = { children: <EditProfile /> };
-  const editAvatarPopup = { children: <EditAvatar /> };
-  const newCardPopup = { children: <NewCard /> };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
@@ -26,7 +31,7 @@ function Main({ cards, onCardLike, onCardDelete, onOpenPopup, setSelectedCard })
           <button
             type="button"
             className="main__button main__button_editProfile"
-            onClick={() => onOpenPopup(editAvatarPopup)}
+            onClick={() => onOpenPopup("editAvatar")}
           >
             <img
               src={currentUser?.avatar}
@@ -46,7 +51,7 @@ function Main({ cards, onCardLike, onCardDelete, onOpenPopup, setSelectedCard })
           <button
             type="button"
             className="main__button main__button_edit"
-            onClick={() => onOpenPopup(editProfilePopup)}
+            onClick={() => onOpenPopup("editProfile")}
           >
             <img src={Edit} alt="edit" className="popup__image-edit" />
           </button>
@@ -55,7 +60,7 @@ function Main({ cards, onCardLike, onCardDelete, onOpenPopup, setSelectedCard })
         <button
           type="button"
           className="main__button main__button_add"
-          onClick={() => onOpenPopup(newCardPopup)}
+          onClick={() => onOpenPopup("newCard")}
         >
           <img src={Add} alt="add" className="popup__image-add" />
         </button>
@@ -74,6 +79,18 @@ function Main({ cards, onCardLike, onCardDelete, onOpenPopup, setSelectedCard })
           ))}
         </ul>
       </section>
+
+      <Popup isOpen={selectedPopup === "EditProfile"} onClose={onClosePopup}>
+        <EditProfile />
+      </Popup>
+
+      <Popup isOpen={selectedPopup === "EditAvatar"} onClose={onClosePopup}>
+        <EditAvatar />
+      </Popup>
+
+      <Popup isOpen={selectedPopup === "NewCard"} onClose={onClosePopup}>
+        <NewCard />
+      </Popup>
     </main>
   );
 }
